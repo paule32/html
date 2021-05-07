@@ -1,0 +1,18 @@
+<?xml version=“1.0“ encoding=“UTF-8“ ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"> 
+<xs:element name=“user“>
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name=“user_dbid” type=”xs:integer” />
+			<xs:element name=“user_name_plain” type=”xs:string”  />
+			<xs:element name=“user_name_crypt” type=”xs:string”  />
+			<xs:element name=“user_pass_crypt” type=”xs:string”  />
+			<xs:element name=”user_flag” type=”xs:string”  />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:key name=“user_id“>
+		<xs:selector xpath=“user“ />
+		<xs:field xpath=“user_id“ />
+	</xs:key>
+</xs:element>
+</xs:schema>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE extern_deskusers SYSTEM "extern_users.dtd">
+<extern_deskusers>
+	<user>
+		<user_dbid>0000001</user_dbid>
+		<user_name_plain>paule32</user_name_plain>
+		<user_name_crypt>45c45fc9b1a166eba448097a27a1973dea370fae5a8d01bc6f47e44a10e58aeb83cf204ac8e6c5dd3ef03d7e68e7a75f8fbb603a8f739b28e91c8c7051333253</user_name_crypt>
+		<user_pass_crypt>2b57e9e97b68456a8e54d4cfe2be59d7a4e61ad111ab053495d019f1017efe10123cbab39665f4d342beb9179d69d9df8868ec6e06327233f16df57849951770</user_pass_crypt>
+		<user_flag>active</user_flag>
+	</user>
+	<user>
+		<user_dbid>0000002</user_dbid>
+		<user_name_plain>admin</user_name_plain>
+		<user_name_crypt>06d8bcddad9b22a7edf5620f32c86ed76b1e09e889038379802a5095c9a6ad2033e13f66bec36d28e9a8239a42349a97048e35061762b440bfc04d2cbb9bcaaf</user_name_crypt>
+		<user_pass_crypt>dfeac90df5a5b275b54e95548a6a720a7d2c1dcbf5acf5dad3246d85aa23a1e7142b325eb813da22ca2714a11e558e7bbf790545f06e3528072862b1882e94bd</user_pass_crypt>
+		<user_flag>active</user_flag>
+	</user>
+</extern_deskusers>

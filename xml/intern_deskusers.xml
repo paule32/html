@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE deskusers SYSTEM "users.dtd">
+<deskusers>
+	<user>
+		<user_dbid>0000001</user_dbid>
+		<user_name>paule32</user_name>
+		<user_pass>1234</user_pass>
+		<user_flag>active</user_flag>
+	</user>
+	<user>
+		<user_dbid>0000002</user_dbid>
+		<user_name>admin</user_name>
+		<user_pass>test</user_pass>
+		<user_flag>active</user_flag>
+	</user>
+</deskusers>
