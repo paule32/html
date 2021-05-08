@@ -24,129 +24,111 @@ class TBrush extends TRect
 	// --------------------------------------------
 	// ctor: constructor
 	// --------------------------------------------
-	public function __construct() {
-		$cnt = func_num_args();
-		if ($cnt == 1) {
-			list($sender) = func_get_args();
-			parent::__construct($sender);
+	public function __construct($sender) {
+		parent::__construct($sender);
 			
-			$this->setClassParent (null);
-			
-			$this->setClassName   ("TPainter");
-			$this->setClassID     ("qpainter");
-			$this->setClassHandle ($sender->getClassHandle()+1);
-		}
+		$this->setClassName   ("TPainter");
+		$this->setClassID     ("qpainter");
+		$this->setClassHandle ($sender->getClassHandle()+1);
 	}
 
 	// --------------------------------------------
-	// set color of the board
+	// set color of the board by: "TColor":
 	// --------------------------------------------
-	public function setColor() {
-		$cnt = func_num_args();
-		if ($cnt == 0) {
-			$this->Color = new TColor(255,100,255);
-		}	else
-		if ($cnt == 1) {
-			list ($sender) = func_get_args();
-			if ($sender instanceof TColor) {
-				$this->Color = new TColor(
-				$sender->getRed  (),
-				$sender->getGreen(),
-				$sender->getBlue ());
-			}	else
-			if (is_string($sender)) {
-				// todo: string
-			}
-		}	else
-		if ($cnt == 3) {
-			list($a1,$a2,$a3) = func_get_args();
-			$this->Color = new TColor($a1,$a2,$a3);
+	public function setColor(TColor $col) {
+		if (!empty($this->Color)) {
+			$this->Color = $col;
+		}	else {
+			$this->Color = new TColor(
+			$sender->getRed  (),
+			$sender->getGreen(),
+			$sender->getBlue ());
+		}
+	}
+	// -------------------------------------------------
+	// set color of the board by: "int, int, int" (rgb):
+	// -------------------------------------------------
+	public function setColor(int $red, int $green, int $blue) {
+		if (!empty($this->Color)) {
+			$this->Color->setRed  ($red  );
+			$this->Color->setGreen($green);
+			$this->Color->setBlue ($blue );
+		}	else {
+			$this->Color = new TColor($red,$green,$blue);
 		}
 	}
 	
-	public function setImage() {
-		$cnt = func_num_args();
-		if ($cnt == 0) {
-			// todo: error msg.
-		}	else
-		if ($cnt == 1) {
-			list ($sender) = func_get_args();
-			if ($sender instanceof TImage) {
-				if (!empty($this->Image)) {
-					$this->Image = $sender;
-				}	else {
-					$this->Image = new TImage($sender);
+	// --------------------------------------------
+	// set image by "new" instance:
+	// --------------------------------------------
+	public function setImage(TImage $sender) {
+		if (!empty($this->Image)) {
+			$this->Image = $sender;
+		}	else {
+			$this->Image = new TImage($sender);
+		}
+	}
+	// --------------------------------------------
+	// set image by "string":
+	// --------------------------------------------
+	public function setImage(string $image) {
+		if (!empty($this->Image)) {
+			$this->Image->FileName = $image;
+		}	else {
+			$this->Image = new TImage($image);
+		}
+	}
+	// --------------------------------------------
+	// set image by: "action", and "image": dummy:
+	// --------------------------------------------
+	public function setImage(string $action, string $image) {
+		switch (strtolower($action)) {
+			case "normal" : break;
+			case "clicked": break;
+			case "hover"  : break;
+		}
+		if (!empty($this->Image)) {
+			$this -> Image -> Action = $action;
+			$this -> Image -> FileName = $image;
+		}	else {
+			$this -> Image = new TImage($image);
+		}
+	}
+	// --------------------------------------------
+	// set image by: "action", "image", "callback":
+	// --------------------------------------------
+	public function setImage(string $action, string $image, callable $callback) {
+		switch (strtolower($action)) {
+			case "normal" : break;
+			case "clicked": break;
+			case "hover"  :
+				if ($callback !== null) {
+					$callback($this);
 				}
-			}	else
-			if (is_string($sender)) {
-				if (!empty($this->Image)) {
-					$this->Image->FileName = $sender;
-				}	else {
-					$this->Image = new TImage($sender);
-				}
-			}
-		}	else
-		if ($cnt == 2) {
-			list ($a1,$a2) = func_get_args();
-			if (is_string($a1) && is_string($a2)) {
-				$a1 = strtolower($a1);
-				$action = "";
-				if (!strcmp($a1,"normal" )) { $action = $a1; } else
-				if (!strcmp($a1,"hover"  )) { $action = $a1; } else
-				if (!strcmp($a1,"clicked")) { $action = $a1; } else {
-					// todo: error msg.
-				}
-				if (!empty($this->Image)) {
-					$this -> Image -> Action = $action;
-				}	else {
-					$this -> Image = new TImage($a2);
-					$this -> Image -> Action = $action;
-				}
-			}
-		}	else
-		if ($cnt == 3) {
-			list ($a1,$a2,$a3) = func_get_args();
-			if (is_string($a1) && is_string($a2)
-			&&  is_callable($a3,true,$on_action)) {
-				$a1 = strtolower($a1);
-				$action = "";
-				if (!strcmp($a1,"normal" )) { $action = $a1; } else
-				if (!strcmp($a1,"hover"  )) {
-					$action = $a1;
-					if ($on_action !== null) {
-						$on_action($this);
-					}
-				} else
-				if (!strcmp($a1,"clicked")) { $action = $a1; } else {
-					return;
-					// todo: error msg.
-				}
-				if (!empty($this->Image)) {
-					$this -> Image -> Action = $action;
-				}	else {
-					$this -> Image = new TImage($a2);
-					$this -> Image -> Action = $action;
-				}
-			}
+			break;
+		}
+		if (!empty($this->Image)) {
+			$this -> Image -> Action = $action;
+			$this -> Image -> FileName = $image;
+		}	else {
+			$this -> Image = new TImage($image);
 		}
 	}
 
-	public function setImageSize() {
-		$cnt = func_num_args();
-		if ($cnt == 0) {
-			$this->Image->Size = "cover";
-			// todo: error msg.
-		}	else
-		if ($cnt == 1) {
-			list ($a1) = func_get_args();
-			if (is_string($a1)) {
-				$this->Image->Size = $a1;
-			}
+	// --------------------------------------------
+	// background-size: set background image attr:
+	// --------------------------------------------
+	public function setImageSize(string $size) {
+		if (!empty($this -> Image)) {
+			$this -> Image -> Size = $size;
 		}
 	}
 
-	public function setOpacity($a1) {
-		$this->Opacity = $a1;
+	// --------------------------------------------
+	// set object transparency:
+	// --------------------------------------------
+	public function setOpacity(int $transparency) {
+		$this->Opacity = $transparency;
 	}
 	
 	// --------------------------------------------
