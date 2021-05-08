@@ -168,11 +168,25 @@ $my_tb_start_btn->setPosition("absolute");
 $my_tb_start_btn -> Margin -> setRect(10,-10,5,10);
 $my_tb_start_btn -> Rect   -> setWidth (104);
 $my_tb_start_btn -> Rect   -> setHeight(40);
-$my_tb_start_btn->setImage("normal" , $img = "img/startButtonNormal.png");
-$my_tb_start_btn->setImage("hover"  , $img = "img/startButtonHover.png"  , function($obj) {
-	$obj->setImage("img/startButtonNormal.png");
-});
-$my_tb_start_btn->setImage("clicked", "img/startButtonClicked.png");
+
+$my_tb_start_btn->setImage("normal", "img/startButtonHover.png",
+	function ($img) {
+		echo "<pre>\n\nhello\n\n";
+		die();
+		//return new TImage($img);
+	});
+
+$my_tb_start_btn->setImage("hover",
+	function ($img) {
+		$img = "img/startButtonHover.png";
+		return new TImage($img);
+	});
+
+$my_tb_start_btn->setImage("clicked",
+	function ($img) {
+		$img = "img/startButtonHover.png";
+		return new TImage($img);
+	});
 
 // ---------------------------------------------------
 // array collection of desk+task window on screen ...
