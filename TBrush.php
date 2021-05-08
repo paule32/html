@@ -72,10 +72,18 @@ class TBrush extends TRect
 		if ($cnt == 1) {
 			list ($sender) = func_get_args();
 			if ($sender instanceof TImage) {
-				$this->Image = $sender;
+				if (!empty($this->Image)) {
+					$this->Image = $sender;
+				}	else {
+					$this->Image = new TImage($sender);
+				}
 			}	else
 			if (is_string($sender)) {
-				$this->Image = new TImage($sender);
+				if (!empty($this->Image)) {
+					$this->Image->FileName = $sender;
+				}	else {
+					$this->Image = new TImage($sender);
+				}
 			}
 		}	else
 		if ($cnt == 2) {
@@ -86,6 +94,31 @@ class TBrush extends TRect
 				if (!strcmp($a1,"normal" )) { $action = $a1; } else
 				if (!strcmp($a1,"hover"  )) { $action = $a1; } else
 				if (!strcmp($a1,"clicked")) { $action = $a1; } else {
+					// todo: error msg.
+				}
+				if (!empty($this->Image)) {
+					$this -> Image -> Action = $action;
+				}	else {
+					$this -> Image = new TImage($a2);
+					$this -> Image -> Action = $action;
+				}
+			}
+		}	else
+		if ($cnt == 3) {
+			list ($a1,$a2,$a3) = func_get_args();
+			if (is_string($a1) && is_string($a2)
+			&&  is_callable($a3,true,$on_action)) {
+				$a1 = strtolower($a1);
+				$action = "";
+				if (!strcmp($a1,"normal" )) { $action = $a1; } else
+				if (!strcmp($a1,"hover"  )) {
+					$action = $a1;
+					if ($on_action !== null) {
+						$on_action($this);
+					}
+				} else
+				if (!strcmp($a1,"clicked")) { $action = $a1; } else {
+					return;
 					// todo: error msg.
 				}
 				if (!empty($this->Image)) {
