@@ -135,30 +135,55 @@ $my_app->onDblClick(function() {
 // -------------------------------------
 InitializeFrameWork();                      // init stuff
 $my_screen = new TScreen("100vw","100vh");
-$my_screen->setMargin(0,0,0,0);
-// $my_screen->setColor(new TColor(100,200,100));
-// $my_screen->setColor(10,200,10);
+$my_screen->setObjectName("screen1");
+$my_screen->setOverflow("hidden");
+$my_screen -> Margin -> setRect(0,0,0,0);
+$my_screen -> Rect   -> setWidth ("100vw");
+$my_screen -> Rect   -> setHeight("100vh");
 $my_screen->setImage("background.jpg");
 $my_screen->setImageSize("cover");
 
 $my_desktop = new TDesktopWindow($my_screen);	// desk-window: icon's
-$my_desktop->setRect(20,20,40,80);
-$my_desktop->setOpacity(0.5);
+$my_desktop->setObjectName("deskwin1");
+$my_desktop->setOverflow("auto");
+$my_desktop -> Margin -> setRect(15,15,15,15);
+$my_desktop -> Rect   -> setWidth ("calc(100vw -  30px)");
+$my_desktop -> Rect   -> setHeight("calc(100vh - 60px)");
+$my_desktop->setColor(200,200,200);
+$my_desktop->setOpacity(0.4);
 
 $my_taskbar = new TDesktopWindow($my_screen);	// task-bar: window's
-$my_taskbar->setRect(-10,-10,10,10);
+$my_taskbar->setObjectName("deskwin2");
+$my_taskbar->setOverflow("auto");
+$my_taskbar->setPosition("fixed");
+$my_taskbar -> Margin -> setRect(0,-15,0,0);
+$my_taskbar -> Rect   -> setWidth ("100vw");
+$my_taskbar -> Rect   -> setHeight(((15*2) + 15));
+$my_taskbar->setColor(10,10,110);
+$my_taskbar->setOpacity(1);
+
+$my_tb_start_btn = new TDesktopWindow($my_taskbar);
+$my_tb_start_btn->setObjectName("startbutton1");
+$my_tb_start_btn->setPosition("absolute");
+$my_tb_start_btn -> Margin -> setRect(10,-10,5,10);
+$my_tb_start_btn -> Rect   -> setWidth (104);
+$my_tb_start_btn -> Rect   -> setHeight(40);
+$my_tb_start_btn->setColor(200,200,200);
+$my_tb_start_btn->setImage("normal" , "img/startButtonNormal.png");
+$my_tb_start_btn->setImage("hover"  , "img/startButtonHover.png");
+$my_tb_start_btn->setImage("clicked", "img/startButtonClicked.png");
 
 // ---------------------------------------------------
 // array collection of desk+task window on screen ...
 // ---------------------------------------------------
-$my_desk = [ $my_desktop, $my_taskbar ];
+$my_desk = [ $my_desktop, $my_taskbar, $my_tb_start_btn ];
 
 $my_device  = new TDevice($my_desk);	// screen
 
-//EmitCode($my_device);					// final stage:
+EmitCode($my_device);					// final stage:
 
-echo "<pre>";
-print_r($my_device);
+//echo "<pre>";
+//print_r($my_device);
 //echo "</div>";
 
 // start test application

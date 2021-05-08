@@ -12,10 +12,10 @@ require_once("TFile.php");
 // -------------------------------------------------------
 // class: TImage: loads pictures/images into onj.
 // -------------------------------------------------------
-class TImage extends TObject
+class TImage extends TFile
 {
-	public $File  = null;
-	public $Size  = "";
+	public $Size   = "";
+	public $Action = "";      // for event handling
 
 	// --------------------------------------------
 	// this is the real ctor, it call the fake ctor
@@ -24,27 +24,13 @@ class TImage extends TObject
 		$cnt = func_num_args();
 		if ($cnt == 0) {
 			parent::__construct();
-			$this->ClassParent = new TObject();
-			$this->File = new TFile();
 		}	else
 		if ($cnt == 1) {
 			list($sender) = func_get_args();
-			
-			if ($sender instanceof TString) {
-				parent::__construct($sender);
-				$this->File = new TFile($sender->Text);
-			}	else
-			if ($sender instanceof TUrl) {
-				parent::__construct($sender);
-				$this->File = new TFile($sender->Text);
-			}	else
-			if (is_string($sender)) {
-				parent::__construct(null);
-				$this->File = new TFile($sender);
-			}
+			parent::__construct($sender);
 		}
-		$this->setClassName   ("TFile");
-		$this->setClassID     ("qfile");
+		$this->setClassName   ("TImage");
+		$this->setClassID     ("qimage");
 		$this->setClassHandle (parent::getClassHandle()+1);
 	}
 	

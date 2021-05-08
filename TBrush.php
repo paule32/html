@@ -14,11 +14,11 @@ require_once ( "TRect.php"   );
 // -------------------------------------------------------
 // class: TPainterScreen
 // -------------------------------------------------------
-class TBrush extends TObject
+class TBrush extends TRect
 {
 	public $Color   = null;
 	public $Image   = null;
-	public $Rect    = null;
+		
 	public $Opacity = 1.0;		// transparency
 	
 	// --------------------------------------------
@@ -64,10 +64,10 @@ class TBrush extends TObject
 		}
 	}
 	
-	public function setImage($a1) {
+	public function setImage() {
 		$cnt = func_num_args();
 		if ($cnt == 0) {
-			// todo
+			// todo: error msg.
 		}	else
 		if ($cnt == 1) {
 			list ($sender) = func_get_args();
@@ -76,6 +76,24 @@ class TBrush extends TObject
 			}	else
 			if (is_string($sender)) {
 				$this->Image = new TImage($sender);
+			}
+		}	else
+		if ($cnt == 2) {
+			list ($a1,$a2) = func_get_args();
+			if (is_string($a1) && is_string($a2)) {
+				$a1 = strtolower($a1);
+				$action = "";
+				if (!strcmp($a1,"normal" )) { $action = $a1; } else
+				if (!strcmp($a1,"hover"  )) { $action = $a1; } else
+				if (!strcmp($a1,"clicked")) { $action = $a1; } else {
+					// todo: error msg.
+				}
+				if (!empty($this->Image)) {
+					$this -> Image -> Action = $action;
+				}	else {
+					$this -> Image = new TImage($a2);
+					$this -> Image -> Action = $action;
+				}
 			}
 		}
 	}
@@ -94,25 +112,6 @@ class TBrush extends TObject
 		}
 	}
 
-	public function setRect() {
-		$cnt = func_num_args();
-		if ($cnt == 1) {
-			list($a1) = func_get_args();
-			if ($a1 instanceof TRect) {
-				$this->Rect = $a1;
-			}
-		}	else
-		if ($cnt == 4) {
-			list($a1,$a2,$a3,$a4) = func_get_args();
-			if (is_int($a1) && is_int($a2)
-			&&  is_int($a3) && is_int($a4)) {
-				$this->Rect = new TRect($a1,$a2,$a3,$a4);
-			}	else {
-				// todo:
-			}
-		}
-	}
-	
 	public function setOpacity($a1) {
 		$this->Opacity = $a1;
 	}

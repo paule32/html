@@ -17,10 +17,10 @@ class TDesktopWindow extends TPanel
 		$cnt = func_num_args();
 		list($sender) = func_get_args();
 		parent::__construct($sender);
-		
-		$this->setClassParent ( $sender );
+
 		$this->setClassName   ("TDesktopWindow");
 		$this->setClassID     ("qdesktopwindow");
+		$this->setClassHandle ($sender->getClassHandle()+1);
 	}
 	
 	public function __destruct() {

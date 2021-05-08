@@ -13,15 +13,15 @@ class TObject
 {
 	public $ClassName   = "TObject";  // class name
 	public $ClassID     = "";         // class ID name
-	public $ClassHandle =  0;         // class ID number
-	public $ClassParent = null;       // class parent object
+	public $ObjectName  = "";
 	
+	public static $ClassHandle =  0;         // class ID number
 	public $Objects    = array();     // object array
 
 	// --------------------------------------------
 	public function __construct() {
 		$cnt = func_num_args();
-		$this->ClassHandle++;
+		$this::$ClassHandle++;
 
 		if ($cnt == 0) {
 			echo "nulllers\n";
@@ -65,15 +65,22 @@ class TObject
 			$this->ClassName = $a1;
 		}
 	}
-	public function setClassHandle ($a1) { $this->ClassHandle = $a1; }
+	public function setObjectName($a1) {
+		if (is_string($a1)) {
+			$this->setClassID($a1 . "_");
+			//$this->ObjectName = $a1;
+		}
+	}
+	
+	public function setClassHandle ($a1) { $this::$ClassHandle = $a1; }
 	public function setClassID     ($a1) { $this->ClassID     = $a1; }
-	public function setClassParent ($a1) { $this->ClassParent = $a1; }
+	public function setClassParent ($a1) { /*$this->ClassParent = $a1;*/ }
 	
 	// --------------------------------------------
 	// getter's: class name
 	// --------------------------------------------
 	public function getClassName   () { return $this->ClassName;   }
-	public function getClassHandle () { return $this->ClassHandle; }
+	public function getClassHandle () { return $this::$ClassHandle; }
 	public function getClassID     () { return $this->ClassID;     }
 	public function getClassParent () { return $this->ClassParent; }
 	

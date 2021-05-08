@@ -13,10 +13,11 @@ require_once ( "TBrush.php"  );
 class TScreen extends TBrush
 {
 	public $Position    = "absolute";  // default: css
+	public $Overflow    = "";
 
-	public $Margin  = null;
-	public $Visual  = null;
-	public $Padding = null;
+	public $Margin  = null;   // outer border's
+	public $Rect    = null;   // width / height
+	public $Padding = null;   // inner border's
 	
 	// ctor: constructor
 	public function __construct() {
@@ -28,19 +29,19 @@ class TScreen extends TBrush
 		// default values:
 		if ($cnt == 0) {
 			parent::__construct($this);
-			$this->Visual = new TRect(2,1,"100vw","100vh");
+			$this->Rect = new TRect(2,1,"100vw","100vh");
 		}	else
 		if ($cnt == 2) {
 			list($w,$h) = func_get_args();
 			parent::__construct($this);
-			$this->Visual = new TRect(0,0,$w,$h);
+			$this->Rect = new TRect(0,0,$w,$h);
 		}	else
 		if ($cnt == 1) {
 			list($a1) = func_get_args();
 			if ($a1 instanceof TRect) {
 				parent::__construct($this);
 
-				$this->Visual = new TRect(
+				$this->Rect = new TRect(
 				$a1->getLeft  (),
 				$a1->getTop   (),
 				$a1->getRight (),
@@ -117,6 +118,10 @@ class TScreen extends TBrush
 	public function setRelative() { $this->setPosition("relative"); }
 	public function setFixed   () { $this->setPosition("fixed"   ); }
 
+	public function setOverflow($a1) {
+		$this->Overflow = $a1;
+	}
+	
 	// dtor: free used memory ...
 	public function __destruct() {
 		parent::__destruct();

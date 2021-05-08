@@ -10,7 +10,7 @@ require_once("TObject.php");
 require_once("TFile.php");
 
 // -------------------------------------------------------
-// class: TImage: loads pictures/images into onj.
+// class: TFile: loads pictures/images into onj.
 // -------------------------------------------------------
 class TFile extends TObject
 {
@@ -27,8 +27,16 @@ class TFile extends TObject
 		}	else
 		if ($cnt == 1) {
 			list($sender) = func_get_args();
+			if ($sender instanceof TString) {
+				parent::__construct($sender);
+				$this->FileName = $sender -> Text;
+			}	else
+			if ($sender instanceof TUrl) {
+				parent::__construct($sender);
+				$this->FileName = $sender -> Text;
+			}	else
 			if (is_string($sender)) {
-				parent::__construct($this);
+				parent::__construct(null);
 				$this->FileName = $sender;
 			}
 		}

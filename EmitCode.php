@@ -15,127 +15,217 @@ require_once("TScreen.php");
 // -------------------------------------
 function EmitCode($root)
 {
-	$class   = get_class($root);
-	$parent  = $root;
+	$class_str = get_class($root);
+	$class_obj = $root;
+	$parent    = $root;
+	
 	$str     = "";		// output generated string
 	$eol     = ";\n";
 	
+	$current_str   = "";       // string: html
+	$current_class = null;     // code information's
+	$counter       = 0;        // array counter;
+	
+	$ident = "\t";
+	
+	static $Screens = 0;
+	
 	// start traverse:
-	$str .= "<div id='container' style='position:absolute; margin-top: 0px;'>";
-	switch ($class) {
+	//echo "<pre><code class='language=php'>";
+	$current_str .= ""
+	. "<div id='container' style='\n"
+	. $ident . "position: absolute" . $eol
+	. $ident . "margin-top: 0px"    . $eol;
+	switch ($class_str) {
 		case 'TDevice':
-			$str .= "<div id='"
-			. $parent->ClassID
-			. $parent->ClassHandle
-			. "' style='position:absolute; margin: 0px;'>";
-			// ---- //
-			$parent = $parent->ClassParent;
-			$class  = get_class($parent);
-			switch ($class) {
-				case 'TDesktopWindow':
-				{
-					$desk_parent = $parent;
-					
-					$parent = $parent->ClassParent;
-					$class  = get_class($parent);
-					switch ($class) {
-						case 'TScreen':
-							$str .= "<div id='"
-							. $parent->ClassID
-							. $parent->ClassHandle
-							. "' style='";
-							// ---- //
-							$par    = $parent;
-							$parent = $par->Margin;
-							if (!empty($parent)) {
-								$str .= ""
-								. "margin-left:   " . $parent->Left   . $eol
-								. "margin-top:    " . $parent->Top    . $eol
-								. "margin-right:  " . $parent->Right  . $eol 
-								. "margin-bottom: " . $parent->Bottom . $eol;
-							}
-							
-							$parent = $par->Padding;
-							if (!empty($parent)) {
-								$str .= ""
-								. "padding-left:   " . $parent->Left   . $eol
-								. "padding-top:    " . $parent->Top    . $eol
-								. "padding-right:  " . $parent->Right  . $eol
-								. "padding-bottom: " . $parent->Bottom . $eol;
-							}
-
-							$parent = $par->Visual;
-							if (!empty($parent)) {
-								$str .= ""
-								. "width:  " . $parent->Width  . $eol
-								. "height: " . $parent->Height . $eol;
-							}
-							
-							$parent = $par;
-							if (!empty($parent->Position)) {
-								$str .= ""
-								. "position: " . $parent->Position . $eol;
-							}
-							
-							$parent = $par->Color;
-							if (!empty($parent)) {
-								$str .= ""
-								. "background-color: rgb("
-								. $parent->ColorRed   . ", "
-								. $parent->ColorGreen . ", "
-								. $parent->ColorBlue  . ")" . $eol;
-							}
-							
-							$parent = $par->Image;
-							if (!empty($parent)) {
-								$str .= ""
-								. "background-image: url("
-								. $parent->File->FileName . ")"
-								. $eol;
-								
-								if (!empty($parent->Size)) {
-									$str .= ""
-									. "background-size: "
-									. $parent->Size
-									. $eol;
+			if (!empty($class_obj -> Objects)) {
+				$counter = 0;
+				foreach($class_obj -> Objects as $obj_1) {
+					if (!empty ($obj_1 -> Objects)) {
+						foreach($obj_1 -> Objects as $obj_2) {
+							if ($Screens < 1) {
+								if ($obj_2 instanceof TScreen) {
+									$Screens++;
+									if (!empty($obj_2 -> Position)) {
+										$current_str .= ""
+										. $ident . "position: "
+										. $obj_2->Position
+										. $eol;
+									}
+									if (!empty($obj_2 -> Overflow)) {
+										$current_str .= ""
+										. $ident . "overflow: " . $obj_2 -> Overflow
+										. $eol;
+									}
+									if (!empty($obj_2 -> Rect)) {
+										if (!empty( $obj_2 -> Rect -> Width)) {
+											$current_str .= ""
+											. $ident . "width:  " . $obj_2 -> Rect -> Width . $eol;
+										}
+										if (!empty( $obj_2 -> Rect -> Height)) {
+											$current_str .= ""
+											. $ident . "height:  " . $obj_2 -> Rect -> Height . $eol;
+										}
+									}
+									if (!empty($obj_2 -> Margin)) {
+										$current_str .= ""
+										. $ident . "margin-top:    " . $obj_2 -> Margin -> Top    . $eol
+										. $ident . "margin-left:   " . $obj_2 -> Margin -> Left   . $eol
+										. $ident . "margin-right:  " . $obj_2 -> Margin -> Right  . $eol
+										. $ident . "margin-bottom: " . $obj_2 -> Margin -> Bottom . $eol;
+									}
+									if (!empty($obj_2 -> Padding)) {
+										$current_str .= ""
+										. $ident . "padding-top:    " . $obj_2 -> Padding -> Top    . $eol
+										. $ident . "padding-left:   " . $obj_2 -> Padding -> Left   . $eol
+										. $ident . "padding-right:  " . $obj_2 -> Padding -> Right  . $eol
+										. $ident . "padding-bottom: " . $obj_2 -> Padding -> Bottom . $eol;
+									}
+									if (!empty($obj_2 -> Color)) {
+										$current_str .= ""
+										. $ident . "background-color: rgb("
+										. $current_class -> Color -> ColorRed   . ", "
+										. $current_class -> Color -> ColorGreen . ", "
+										. $current_class -> Color -> ColorBlue  . ")"
+										. $eol;
+									}
+									if (!empty($obj_2 -> Image)) {
+										$current_str .= ""
+										. $ident . "background-image: url(\""
+										.          $obj_2 -> Image -> FileName
+										.          "\")"
+										. $eol;
+									}
+									if (!empty($obj_2 -> Image -> Size)) {
+										$current_str .= ""
+										. $ident . "background-size: "
+										. $obj_2 -> Image -> Size
+										. $eol;
+									}
 								}
+								// TScreen []
+								$current_str .= "'>";
 							}
-							$str .= "'>";
-						break;
+						}
 					}
-					$str .= "</div>";
 				}
-				// ------- //
-				{
-					$str .= "<div id='"
-					. $desk_parent->ClassID
-					. $desk_parent->ClassHandle
-					. "' style='";
-					if (!empty($desk_parent->Rect)) {
-						$str .= "position:absolute; background-color:red; "
-						. "margin-left:   " . $desk_parent->Rect->Left   . $eol
-						. "margin-top:    " . $desk_parent->Rect->Top    . $eol
-						. "margin-right:  " . $desk_parent->Rect->Right  . $eol 
-						. "margin-bottom: " . $desk_parent->Rect->Bottom . $eol
+								
+				foreach($class_obj->Objects as $obj) {
+					$current_class = $obj;
+					
+					// -------------------------------------------
+					// TDesktopWindow:
+					// -------------------------------------------
+					if ($current_class instanceof TDesktopWindow) {
+						$current_str .= ""
+						. $ident . "<div id='"
+						. $obj -> ClassID
+						. $obj :: $ClassHandle
+						. "' style='\n";
 						
-						// customized ! 
-						. "width: calc(100vw - " . $desk_parent->Rect->Right  . ")" . $eol
-						. "height:calc(100vh - " . $desk_parent->Rect->Bottom . ")" . $eol
+						// -------------------------------------------
+						// TDesktopWindow -> Position:
+						// -------------------------------------------
+						if (!empty($current_class -> Position)) {
+							$current_str .= ""
+							. $ident . "position: " . $current_class -> Position . $eol;
+						}
 						
-						// transparency:
-						. "opacity: " . $desk_parent->Opacity . $eol;
+						// -------------------------------------------
+						// TDesktopWindow -> Margin:
+						// -------------------------------------------
+						if (!empty($current_class -> Margin)) {
+							$current_str .= ""
+							. $ident . "margin-left:   " . $current_class -> Margin -> Left   . $eol
+							. $ident . "margin-top:    " . $current_class -> Margin -> Top    . $eol
+							. $ident . "margin-right:  " . $current_class -> Margin -> Right  . $eol 
+							. $ident . "margin-bottom: " . $current_class -> Margin -> Bottom . $eol;
+						}
+						
+						if (!empty($current_class -> Rect)) {
+							$current_str .= ""
+							. $ident . "width:  " . $current_class -> Rect -> Width  . $eol
+							. $ident . "height: " . $current_class -> Rect -> Height . $eol;
+							
+							//. $ident . "width: calc(100vw - " . $current_class -> Rect -> Width  . ")" . $eol
+							//. $ident . "height:calc(100vh - " . $current_class -> Rect -> Height . ")" . $eol;
+						}
+						
+						// -------------------------------------------
+						// TDesktopWindow -> Background -> Color:
+						// -------------------------------------------
+						if (!empty($current_class -> Color)) {
+							$current_str .= ""
+							. $ident . "background-color: rgb("
+							. $current_class -> Color -> ColorRed   . ", "
+							. $current_class -> Color -> ColorGreen . ", "
+							. $current_class -> Color -> ColorBlue  . ")"
+							. $eol;
+						}
+						
+						// -------------------------------------------
+						// TDesktopWindow -> Background -> Image:
+						// -------------------------------------------
+						if (!empty($current_class -> Image)) {
+							$current_str .= ""
+							. $ident . "background-image: url("
+							.          $current_class -> Image -> FileName
+							.          ")"
+							. $eol;
+						
+							// -----------------------------------------------
+							// TDesktopWindow -> Background -> Image -> Size:
+							// -----------------------------------------------
+							if (!empty($current_class -> Image -> Size)) {
+								$current_str .= ""
+								. $ident . "background-size: '"
+								.          $current_class->Image->Size
+								.          "')"
+								. $eol;
+							}
+						}
+
+						// -------------------------------------------
+						// TDesktopWindow -> Transparency:
+						// -------------------------------------------
+						if (!empty($current_class -> Opacity)) {
+							$current_str .= ""
+							. $ident . "opacity: " . $current_class -> Opacity . $eol;
+						}
+						
+						// -------------------------------------------
+						// TDesktopWindow -> Overflow:
+						// -------------------------------------------
+						if (!empty($current_class -> Overflow)) {
+							$current_str .= ""
+							. $ident . "overflow: " . $current_class -> Overflow . $eol;
+						}
+						
+						// -------------------------------------------
+						// TDesktopWindow -> Padding:
+						// -------------------------------------------
+						if (!empty($current_class -> Padding)) {
+							$current_str .= ""
+							. $ident . "padding-left:   " . $current_class -> Padding -> Left   . $eol
+							. $ident . "padding-top:    " . $current_class -> Padding -> Top    . $eol
+							. $ident . "padding-right:  " . $current_class -> Padding -> Right  . $eol 
+							. $ident . "padding-bottom: " . $current_class -> Padding -> Bottom . $eol;
+						}
+						
+						$current_str .= $ident . "'></div>\n";
 					}
-					$str .= "'></div>\n";
 				}
-				break;
 			}
-			$str .= "</div>\n";
 		break;
 	}
-	$str .= "</div>\n";
+	$current_str .= "</div>";
 	
-	echo "\n\n" . $str . "\n\n";
+	echo $current_str;
+	//echo htmlspecialchars($current_str, ENT_HTML5 );
 	
+	
+	//echo "</code></pre>";
+		
 	// last step: bring all together:
 	//WriteBodyContent();
 }

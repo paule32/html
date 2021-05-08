@@ -8,6 +8,8 @@
 
 require_once ( "TObject.php" );
 require_once ( "TBrush.php"  );
+require_once ( "TRect.php"   );
+require_once ( "TMargin.php" );
 
 // -------------------------------------------------------
 // class TPanWindow: represents a application window/panel
@@ -351,6 +353,11 @@ class TPanWindow extends TObject
 // -------------------------------------------------------
 class TPanel extends TBrush
 {
+	public $Overflow = null;
+	//
+	public $Rect    = null;
+	public $Margin  = null;
+
 	public function __construct() {
 		$cnt = func_num_args();
 		list($sender) = func_get_args();
@@ -359,8 +366,19 @@ class TPanel extends TBrush
 		$this->setClassParent ( $sender );
 		$this->setClassName   ("TPanel" );
 		$this->setClassID     ("qpanel" );
+		
+		if (empty($this -> Margin)) { $this -> Margin = new TMargin(20,20,20,20); }
+		if (empty($this -> Rect  )) { $this -> Rect   = new TRect  (20,20,20,20); }
 	}
 
+	public function setOverflow($a1) {
+		$this->Overflow = $a1;
+	}
+	
+	public function setPosition($a1) {
+		$this->Position = $a1;
+	}
+	
 	public function __destruct() {
 		parent::__destruct();
 	}

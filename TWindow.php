@@ -13,7 +13,6 @@ require_once("TPanel.php");
 // -------------------------------------------------------
 class TWindow extends TPanWindow
 {
-	public $ClassName = "TWindow";
 	public function __construct() {
 		$cnt = func_num_args();
 		list($sender) = func_get_args();

@@ -59,24 +59,24 @@ class TRect extends TObject
 			if (is_int($a1) && is_int($a2)
 			&&  is_int($a3) && is_int($a4)) {
 				parent::__construct($this);
-				$this->setTop   ($a1 . "px");
-				$this->setLeft  ($a2 . "px");
+				$this->setTop   ($a2 . "px");
+				$this->setLeft  ($a1 . "px");
 				$this->setRight ($a3 . "px"); $this->setWidth ($a3 . "px");
 				$this->setBottom($a4 . "px"); $this->setHeight($a4 . "px");
 			}	else
 			if (is_int   ($a1) && is_int   ($a2)
 			&&  is_string($a3) && is_string($a4)) {
 				parent::__construct($this);
-				$this->setTop   ($a1 . "px");
-				$this->setLeft  ($a2 . "px");
+				$this->setTop   ($a2 . "px");
+				$this->setLeft  ($a1 . "px");
 				$this->setRight ($a3); $this->setWidth ($a3);
 				$this->setBottom($a4); $this->setHeight($a4);
 			}	else
 			if (is_string($a1) && is_string($a2)
 			&&  is_string($a3) && is_string($a4)) {
 				parent::__construct($this);
-				$this->setTop   ($a1);
-				$this->setLeft  ($a2);
+				$this->setTop   ($a2);
+				$this->setLeft  ($a1);
 				$this->setRight ($a3); $this->setWidth ($a3);
 				$this->setBottom($a4); $this->setHeight($a4);
 			}
@@ -99,6 +99,38 @@ class TRect extends TObject
 	// --------------------------------------------
 	// setter's:
 	// --------------------------------------------
+	public function setRect() {
+		$cnt = func_num_args();
+		if ($cnt == 1) {
+			list($a1) = func_get_args();
+			if ($a1 instanceof TRect) {
+				$this->Rect = $a1;
+			}
+		}	else
+		if ($cnt == 4) {
+			list($a1,$a2,$a3,$a4) = func_get_args();
+			if (is_int($a1) && is_int($a2)
+			&&  is_int($a3) && is_int($a4)) {
+				$this->Left   = $a1 . "px";
+				$this->Top    = $a2 . "px";
+				$this->Right  = $a3 . "px";
+				$this->Bottom = $a4 . "px";
+			
+				$this->Width  = $a3 . "px";
+				$this->Height = $a4 . "px";
+			}	else
+			if (is_string($a1)) {
+				$this->Left   = $a1;
+				$this->Top    = $a2;
+				$this->Right  = $a3;
+				$this->Bottom = $a4;
+			
+				$this->Width  = $a3;
+				$this->Height = $a4;
+			}
+		}
+	}
+	
 	public function setWidth ($a1) {
 		if (is_int($a1)) {
 			$this->Width = $a1 . "px";

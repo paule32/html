@@ -21,11 +21,6 @@ class TPaintDevice extends TObject
 			list($sender) = func_get_args();
 			parent::__construct($sender);
 			
-			if  ($sender instanceof TDesktopWindow) {
-				echo "- " . get_class($sender) . "\n";
-//				array_push( $this::$Controls, $sender);
-			}
-	
 			$this->setClassParent ($sender);
 			$this->setClassHandle ($sender->getClassHandle()+1);
 			
