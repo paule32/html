@@ -168,10 +168,9 @@ $my_tb_start_btn->setPosition("absolute");
 $my_tb_start_btn -> Margin -> setRect(10,-10,5,10);
 $my_tb_start_btn -> Rect   -> setWidth (104);
 $my_tb_start_btn -> Rect   -> setHeight(40);
-$my_tb_start_btn->setColor(200,200,200);
-$my_tb_start_btn->setImage("normal" , "img/startButtonNormal.png");
-$my_tb_start_btn->setImage("hover"  , "img/startButtonHover.png");
-$my_tb_start_btn->setImage("clicked", "img/startButtonClicked.png");
+$my_tb_start_btn->setImage("normal" , "img/startButtonNormal.png" , function() {});
+$my_tb_start_btn->setImage("hover"  , "img/startButtonHover.png"  , function() {});
+$my_tb_start_btn->setImage("clicked", "img/startButtonClicked.png", function() {});
 
 // ---------------------------------------------------
 // array collection of desk+task window on screen ...
