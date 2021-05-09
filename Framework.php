@@ -12,8 +12,10 @@
 $_SESSION['document_stream'] = "";
 $_SESSION['ClassRegister'  ] = array(); 	// default suported classes
 
-require_once("Utils.php");
-require_once("EmitCode.php");
+require_once ( "Utils.php" );
+require_once ( "TException.php" );
+require_once ( "DispatchEvents.php" );
+require_once ( "EmitCode.php" );
 
 // -----------------------------------------------
 // RegisterClass: register classes to be in use
@@ -51,6 +53,40 @@ function InitializeFrameWork()
 		"TWindow",			// window
 		"TButton",			// window: button
 	]);
+	
+	// todo: uncomment on productive sys.
+	//ini_set('display_errors',0);
+	register_shutdown_function('shutdown');
+}
+
+function shutdown()
+{
+	try {
+		if(!is_null($e = error_get_last()))
+		{
+			$opts = [
+				'https' => [
+					'method'  => 'GET',
+					'header'  => 'content-type: text/html\r\n',
+					'timeout' => 60
+				]
+			];
+			$context = stream_context_create($opts);
+			$file = file_get_contents( 
+				__DIR__ . "./assets/php/error.php",
+				false,
+				$context);
+			
+			echo "<pre>" . $file . "\n\n";
+			print_r($e, false);
+			return;
+		}
+		echo "all ok.";
+	}
+	catch (TException $ex) {
+		echo "eccxxxx: " . $ex;
+		die();
+	}
 }
 
 // -------------------------------------

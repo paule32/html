@@ -22,13 +22,11 @@ class TImage extends TFile
 	// --------------------------------------------
 	public function __construct() {
 		$cnt = func_num_args();
-		if ($cnt == 0) {
-			parent::__construct();
-		}	else
 		if ($cnt == 1) {
 			list($sender) = func_get_args();
 			parent::__construct($sender);
 		}
+		
 		$this->setClassName   ("TImage");
 		$this->setClassID     ("qimage");
 		$this->setClassHandle (parent::getClassHandle()+1);

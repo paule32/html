@@ -20,7 +20,7 @@ class TBrush extends TRect
 	public $Image   = null;
 		
 	public $Opacity = 1.0;		// transparency
-	
+
 	// --------------------------------------------
 	// ctor: constructor
 	// --------------------------------------------
@@ -29,8 +29,6 @@ class TBrush extends TRect
 		if ($cnt == 1) {
 			list($sender) = func_get_args();
 			parent::__construct($sender);
-			
-			$this->setClassParent (null);
 			
 			$this->setClassName   ("TPainter");
 			$this->setClassID     ("qpainter");
@@ -86,33 +84,23 @@ class TBrush extends TRect
 				}
 			}
 		}	else
-		if ($cnt == 3) {
-			list ($a1,$image,$on_action) = func_get_args();
-			if (is_string($a1) && is_string($image)) {
-				$a1 = strtolower($a1);
+		if ($cnt == 2) {
+			list ($event,$on_hover_action) = func_get_args();
+			if (is_string($event)) {
+				$event = strtolower($event);
 				$action = "";
-				if (!strcmp($a1,"normal")) {
-					if ($on_action instanceof Closure) {
-						$that = $this;
-						$arg1 = "-> ";
-						$wrapper = function() use($that) {
-							$cnt = func_num_args();
-							echo $cnt;
-							list($arg1) = func_get_args();
-							echo $arg1;
-							//die();
-							$on_action($arg1);
-							die();
-						};
-						$wrapper($arg1);
+				if (!strcmp($event,"normal")) {
+					if (($on_hover_action instanceof Closure)
+					&&  ($on_hover_action != null)) {
+						 $on_hover_action();
 					}
 				}	else
-				if (!strcmp($a1,"hover"  )) {
+				if (!strcmp($event,"hover")) {
 					//if ($on_action instanceof Closure) {
 						//$on_action($a1);
 					//}
 				} else
-				if (!strcmp($a1,"clicked")) { } else {
+				if (!strcmp($event,"clicked")) { } else {
 					// todo: error msg.
 				}
 				if (!empty($this->Image)) {
@@ -138,6 +126,12 @@ class TBrush extends TRect
 
 	public function setOpacity($a1) {
 		$this->Opacity = $a1;
+	}
+	
+	public function onHover(callable $callback = null) {
+		if ($callback !== null) {
+			$callback($this);
+		}
 	}
 	
 	// --------------------------------------------

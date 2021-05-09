@@ -21,10 +21,6 @@ class TFile extends TObject
 	// dtor: constructor:
 	public function __construct() {
 		$cnt = func_num_args();
-		if ($cnt == 0) {
-			parent::__construct($this);
-			// todo
-		}	else
 		if ($cnt == 1) {
 			list($sender) = func_get_args();
 			if ($sender instanceof TString) {
@@ -36,7 +32,6 @@ class TFile extends TObject
 				$this->FileName = $sender -> Text;
 			}	else
 			if (is_string($sender)) {
-				parent::__construct(null);
 				$this->FileName = $sender;
 			}
 		}

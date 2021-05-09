@@ -134,6 +134,7 @@ $my_app->onDblClick(function() {
 // create a screen desktop ...
 // -------------------------------------
 InitializeFrameWork();                      // init stuff
+
 $my_screen = new TScreen("100vw","100vh");
 $my_screen->setObjectName("screen1");
 $my_screen->setOverflow("hidden");
@@ -169,30 +170,47 @@ $my_tb_start_btn -> Margin -> setRect(10,-10,5,10);
 $my_tb_start_btn -> Rect   -> setWidth (104);
 $my_tb_start_btn -> Rect   -> setHeight(40);
 
-$my_tb_start_btn->setImage("normal", "img/startButtonHover.png",
-	function ($img) {
-		echo "<pre>\n\nhello\n\n";
-		die();
-		//return new TImage($img);
-	});
+function load_picture($sender, $image) {
+	if (empty($sender->Image)) {
+		$class = get_class($sender);
+		switch ($class) {
+			case 'TDesktopWindow':
+				$sender -> Image = new TImage($image);
+			break;
+		}
+	}	else {
+		$class = get_class($sender);
+		switch ($class) {
+			case 'TDesktopWindow':
+				$sender -> Image = $sender;
+				$sender -> Image -> FileName = $image;
+			break;
+		}
+	}
+}
 
-$my_tb_start_btn->setImage("hover",
-	function ($img) {
-		$img = "img/startButtonHover.png";
-		return new TImage($img);
-	});
+$evt_on_load  = function($sender) { load_picture($sender, "img/startButtonNormal.png"); };
+$evt_on_hover = function($sender) { load_picture($sender, "img/startButtonHover.png" ); };
+$evt_on_click = function($sender) { load_picture($sender, "img/startButtonClick.png" ); };
+$evt_on_mmove = function($sender) { load_picture($sender, "img/startButtonNormal.png"); };
 
-$my_tb_start_btn->setImage("clicked",
-	function ($img) {
-		$img = "img/startButtonHover.png";
-		return new TImage($img);
-	});
+// ---------------------------------------------------
+// array collection of object handler:
+// ---------------------------------------------------
+$event_handler = [
+	["onLoad"     , $evt_on_load , $my_tb_start_btn ],
+	["onHover"    , $evt_on_hover, $my_tb_start_btn ],
+	["onClick"    , $evt_on_click, $my_tb_start_btn ],
+	["onMouseMove", $evt_on_mmove, $my_tb_start_btn ]
+];
+
+DispatchEvents($event_handler);
+die();
 
 // ---------------------------------------------------
 // array collection of desk+task window on screen ...
 // ---------------------------------------------------
 $my_desk = [ $my_desktop, $my_taskbar, $my_tb_start_btn ];
-
 $my_device  = new TDevice($my_desk);	// screen
 
 EmitCode($my_device);					// final stage:

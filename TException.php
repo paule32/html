@@ -8,10 +8,16 @@
 
 require_once("TObject.php");
 
-class TException extends TObject {
-	public $ClassName = "TException";
-	public function __construct($a1) {
-		parent::__construct();
+class TException extends TObject
+{
+	public function __construct() {
+		$cnt = func_num_args();
+		if ($cnt == 1) {
+			list($sender) = func_get_args();
+			if (is_string($sender)) {
+				parent::__construct($this);
+			}
+		}
 	}
 }
 
