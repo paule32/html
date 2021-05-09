@@ -7,10 +7,6 @@
 // -----------------------------------------------------
 
 require_once("Framework.php");
-require_once("TObject.php");
-require_once("TDevice.php");
-require_once("TScreen.php");
-require_once("TDesktopWindow.php");
 
 ?>
 <!doctype html>
@@ -169,30 +165,13 @@ $my_tb_start_btn->setPosition("absolute");
 $my_tb_start_btn -> Margin -> setRect(10,-10,5,10);
 $my_tb_start_btn -> Rect   -> setWidth (104);
 $my_tb_start_btn -> Rect   -> setHeight(40);
+$my_tb_start_btn -> setImage("normal", "img/startButtonNormal.png");
 
-function load_picture($sender, $image) {
-	if (empty($sender->Image)) {
-		$class = get_class($sender);
-		switch ($class) {
-			case 'TDesktopWindow':
-				$sender -> Image = new TImage($image);
-			break;
-		}
-	}	else {
-		$class = get_class($sender);
-		switch ($class) {
-			case 'TDesktopWindow':
-				$sender -> Image = $sender;
-				$sender -> Image -> FileName = $image;
-			break;
-		}
-	}
-}
 
-$evt_on_load  = function($sender) { load_picture($sender, "img/startButtonNormal.png"); };
-$evt_on_hover = function($sender) { load_picture($sender, "img/startButtonHover.png" ); };
-$evt_on_click = function($sender) { load_picture($sender, "img/startButtonClick.png" ); };
-$evt_on_mmove = function($sender) { load_picture($sender, "img/startButtonNormal.png"); };
+$evt_on_load  = function($sender) { $utils -> setImage ($sender, "img/startButtonNormal.png"); };
+$evt_on_hover = function($sender) { $utils -> setImage ($sender, "img/startButtonHover.png" ); };
+$evt_on_click = function($sender) { $utils -> setImage ($sender, "img/startButtonClick.png" ); };
+$evt_on_mmove = function($sender) { $utils -> setImage ($sender, "img/startButtonNormal.png"); };
 
 // ---------------------------------------------------
 // array collection of object handler:
@@ -205,7 +184,7 @@ $event_handler = [
 ];
 
 DispatchEvents($event_handler);
-die();
+
 
 // ---------------------------------------------------
 // array collection of desk+task window on screen ...

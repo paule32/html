@@ -12,10 +12,16 @@
 $_SESSION['document_stream'] = "";
 $_SESSION['ClassRegister'  ] = array(); 	// default suported classes
 
+require_once ( "TObject.php" );
 require_once ( "Utils.php" );
 require_once ( "TException.php" );
 require_once ( "DispatchEvents.php" );
 require_once ( "EmitCode.php" );
+
+// mostly used php files: default loading:
+require_once ( "TDevice.php" );
+require_once ( "TScreen.php" );
+require_once ( "TDesktopWindow.php" );
 
 // -----------------------------------------------
 // RegisterClass: register classes to be in use
@@ -64,26 +70,26 @@ function shutdown()
 	try {
 		if(!is_null($e = error_get_last()))
 		{
-			$opts = [
-				'https' => [
-					'method'  => 'GET',
-					'header'  => 'content-type: text/html\r\n',
-					'timeout' => 60
-				]
-			];
-			$context = stream_context_create($opts);
-			$file = file_get_contents( 
-				__DIR__ . "./assets/php/error.php",
-				false,
-				$context);
+			ob_start();
+			require_once ( __DIR__ . "./assets/php/t_error.php" );
+			$contents = ob_get_contents();
+			ob_end_clean();
 			
-			echo "<pre>" . $file . "\n\n";
-			print_r($e, false);
+			echo $contents;
+			die();
+			
+			//header('content-type: text/plain');
+			//print "this is not html:\n\n". print_r($e,true);
+			//echo $file;
+			//print_r($e, false);
 			return;
 		}
-		echo "all ok.";
 	}
 	catch (TException $ex) {
+		echo "eccxxxx: " . $ex;
+		die();
+	}
+	catch (Exception $ex) {
 		echo "eccxxxx: " . $ex;
 		die();
 	}

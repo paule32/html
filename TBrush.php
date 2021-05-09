@@ -77,36 +77,37 @@ class TBrush extends TRect
 				}
 			}	else
 			if (is_string($sender)) {
-				if (!empty($this->Image)) {
-					$this->Image->FileName = $sender;
-				}	else {
+				$this->checkEvent($sender);
+				if (empty($this->Image)) {
 					$this->Image = new TImage($sender);
 				}
 			}
 		}	else
 		if ($cnt == 2) {
-			list ($event,$on_hover_action) = func_get_args();
-			if (is_string($event)) {
-				$event = strtolower($event);
-				$action = "";
-				if (!strcmp($event,"normal")) {
-					if (($on_hover_action instanceof Closure)
-					&&  ($on_hover_action != null)) {
-						 $on_hover_action();
-					}
-				}	else
-				if (!strcmp($event,"hover")) {
-					//if ($on_action instanceof Closure) {
-						//$on_action($a1);
-					//}
-				} else
-				if (!strcmp($event,"clicked")) { } else {
-					// todo: error msg.
-				}
-				if (!empty($this->Image)) {
-					$this -> Image -> Action = $action;
+			list ($event, $image) = func_get_args();
+			if (is_string($event) &&  is_string($image)) {
+				$this->checkEvent($event);
+				if (empty($this->Image)) {
+					$this->Image = new TImage($image);
+				}	else {
+					$this->Image->FileName = $image;
 				}
 			}
+		}
+	}
+
+	public function checkEvent($event) {
+		$event = strtolower($event);
+		$action = "";
+		if (!strcmp($event,"normal")) {
+		}	else
+		if (!strcmp($event,"hover")) {
+		} else
+		if (!strcmp($event,"clicked")) { } else {
+			// todo: error msg.
+		}
+		if (!empty($this->Image)) {
+			$this -> Image -> Action = $action;
 		}
 	}
 

@@ -120,7 +120,7 @@ function EmitCode($root)
 						$current_str .= ""
 						. $ident . "<div id='"
 						. $obj -> ClassID
-						. $obj :: $ClassHandle
+						//. $obj :: $ClassHandle
 						. "' style='\n";
 						
 						// -------------------------------------------

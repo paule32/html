@@ -14,7 +14,7 @@ function DispatchEvents($handler)
 	. "console.log('ready.');";
 	
 	echo "<pre>";
-	print_r($handler);
+	//print_r($handler);
 	
 	if (is_array($handler)) {
 		foreach ($handler as $event) {
