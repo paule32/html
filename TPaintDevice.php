@@ -34,5 +34,3 @@ class TPaintDevice extends TObject
 		parent::__destruct();
 	}
 }
-
-?>

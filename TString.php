@@ -35,5 +35,3 @@ class TString extends TObject
 		parent::__destruct();
 	}
 }
-
-?>

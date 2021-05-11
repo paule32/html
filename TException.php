@@ -20,5 +20,3 @@ class TException extends TObject
 		}
 	}
 }
-
-?>

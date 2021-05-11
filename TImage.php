@@ -36,5 +36,3 @@ class TImage extends TFile
 	public function __destruct() {
 	}
 }
-
-?>

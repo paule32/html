@@ -33,5 +33,3 @@ class TApplication extends TWindow
 		parent::__destruct();
 	}
 }
-
-?>

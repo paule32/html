@@ -383,5 +383,3 @@ class TPanel extends TBrush
 		parent::__destruct();
 	}
 }
-
-?>

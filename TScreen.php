@@ -127,5 +127,3 @@ class TScreen extends TBrush
 		parent::__destruct();
 	}
 }
-
-?>

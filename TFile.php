@@ -45,5 +45,3 @@ class TFile extends TObject
 	public function __destruct() {
 	}
 }
-
-?>

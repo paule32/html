@@ -27,5 +27,3 @@ class TDesktopWindow extends TPanel
 		parent::__destruct();
 	}
 }
-
-?>

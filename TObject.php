@@ -90,5 +90,3 @@ class TObject
 	public function __destruct() {
 	}
 }
-
-?>

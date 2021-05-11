@@ -195,5 +195,3 @@ class TRect extends TObject
 		parent::__destruct();
 	}
 }
-
-?>

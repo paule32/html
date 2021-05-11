@@ -26,5 +26,3 @@ class TWindow extends TPanWindow
 		parent::__destruct();
 	}
 }
-
-?>

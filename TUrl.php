@@ -37,5 +37,3 @@ class TUrl {
 	public function __destruct() {
 	}
 }
-
-?>

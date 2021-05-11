@@ -23,5 +23,3 @@ class TKeyboard extends TDevice
 		parent::__destruct();
 	}
 }
-
-?>

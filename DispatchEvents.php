@@ -13,7 +13,7 @@ function DispatchEvents($handler)
 	. "$(document).ready(function() {"
 	. "console.log('ready.');";
 	
-	echo "<pre>";
+	//echo "<pre>";
 	//print_r($handler);
 	
 	if (is_array($handler)) {
@@ -34,8 +34,8 @@ function DispatchEvents($handler)
 						'onmousemove' ,  // mouse move over object
 						'onmouseup'   ,  // mouse button up
 					];
-					if (in_array($eventstr, $eventarr)) {
-						$ex = new TExceptio("event: '" . $eventstr . "' not available.");
+					if (!in_array($eventstr, $eventarr)) {
+						//$ex = new TException("event: '" . $eventstr . "' not available.");
 						unset($codestr);	// garbage collector
 						unset($eventstr);
 						return;
@@ -97,5 +97,3 @@ function DispatchEvents($handler)
 	unset($eventstr);	// garbage collector
 	return $codestr .= "});";
 }
-
-?>

@@ -127,5 +127,3 @@ class TColor extends TObject
 		parent::__destruct();
 	}
 }
-
-?>

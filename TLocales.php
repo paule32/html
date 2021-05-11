@@ -151,4 +151,3 @@ class TLocales extends TObject
 	}
 }
 
-?>

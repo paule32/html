@@ -20,7 +20,7 @@ function EmitCode($root)
 	$parent    = $root;
 	
 	$str     = "";		// output generated string
-	$eol     = ";\n";
+	$eol     = ";";
 	
 	$current_str   = "";       // string: html
 	$current_class = null;     // code information's
@@ -33,9 +33,9 @@ function EmitCode($root)
 	// start traverse:
 	//echo "<pre><code class='language=php'>";
 	$current_str .= ""
-	. "<div id='container' style='\n"
+	. "<div id='container' style='"
 	. $ident . "position: absolute" . $eol
-	. $ident . "margin-top: 0px"    . $eol;
+	. $ident . "margin-top: 0px"    . ";";
 	switch ($class_str) {
 		case 'TDevice':
 			if (!empty($class_obj -> Objects)) {
@@ -121,7 +121,7 @@ function EmitCode($root)
 						. $ident . "<div id='"
 						. $obj -> ClassID
 						//. $obj :: $ClassHandle
-						. "' style='\n";
+						. "' style='";
 						
 						// -------------------------------------------
 						// TDesktopWindow -> Position:
@@ -212,7 +212,7 @@ function EmitCode($root)
 							. $ident . "padding-bottom: " . $current_class -> Padding -> Bottom . $eol;
 						}
 						
-						$current_str .= $ident . "'></div>\n";
+						$current_str .= $ident . "'></div>";
 					}
 				}
 			}
@@ -229,5 +229,3 @@ function EmitCode($root)
 	// last step: bring all together:
 	//WriteBodyContent();
 }
-
-?>

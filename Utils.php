@@ -53,7 +53,3 @@ class TUtils extends TObject
 		parent::__destruct();
 	}
 }
-
-// for global use - leak:
-$utils = new TUtils();
-?>

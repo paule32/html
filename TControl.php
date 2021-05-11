@@ -23,5 +23,3 @@ class TControl extends TObject
 		parent::__destruct();
 	}
 }
-
-?>

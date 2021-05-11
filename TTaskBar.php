@@ -20,5 +20,3 @@ class TTaskBar extends TPanel {
 		parent::__destruct();
 	}
 }
-
-?>

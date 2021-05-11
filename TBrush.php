@@ -142,5 +142,3 @@ class TBrush extends TRect
 		parent::__destruct();
 	}
 }
-
-?>

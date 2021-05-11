@@ -58,4 +58,3 @@ class TPrinter extends TDevice
 	}
 }
 
-?>

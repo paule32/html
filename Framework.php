@@ -23,6 +23,9 @@ require_once ( "TDevice.php" );
 require_once ( "TScreen.php" );
 require_once ( "TDesktopWindow.php" );
 
+// global scope:
+$utils = null;
+
 // -----------------------------------------------
 // RegisterClass: register classes to be in use
 // in the class system.
@@ -61,14 +64,14 @@ function InitializeFrameWork()
 	]);
 	
 	// todo: uncomment on productive sys.
-	//ini_set('display_errors',0);
+	ini_set('display_errors',1);
 	register_shutdown_function('shutdown');
 }
 
 function shutdown()
 {
 	try {
-		if(!is_null($e = error_get_last()))
+		if (!is_null($e = error_get_last()))
 		{
 			ob_start();
 			require_once ( __DIR__ . "./assets/php/t_error.php" );
@@ -114,5 +117,3 @@ function MainEntryPoint()
 	$my_app = new TApplication();
 	$my_app->exec();
 }
-
-?>

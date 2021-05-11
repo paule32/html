@@ -20,5 +20,3 @@ class TButton extends TPanel {
 		parent::__destruct();
 	}
 }
-
-?>

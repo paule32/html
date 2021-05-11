@@ -213,5 +213,3 @@ class TBackground extends TObject
 	public function __destruct() {
 	}
 }
-
-?>
